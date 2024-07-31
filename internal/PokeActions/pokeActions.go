@@ -1,6 +1,11 @@
 package pokeactions
 
-import "net/http"
+import (
+	"encoding/json"
+	"fmt"
+	"io"
+	"net/http"
+)
 
 type locationAreaData struct {
 	Count    int    `json:"count"`
@@ -12,9 +17,26 @@ type locationAreaData struct {
 	} `json:"results"`
 }
 
-func commandMap(config *config) error {
-	resp, err := http.Get(config.next)
+func GetLocationAreaData(url string) (locationAreaData, error) {
+	locData := locationAreaData{}
+
+	resp, err := http.Get(url)
 	if err != nil {
-		return err
+		return locationAreaData{}, err
 	}
+
+	body, err := io.ReadAll(resp.Body)
+	resp.Body.Close()
+	if resp.StatusCode > 299 {
+		err := fmt.Errorf("response failed with status code: %d and\nbody: %s", resp.StatusCode, body)
+		return locationAreaData{}, err
+	}
+	if err != nil {
+		return locationAreaData{}, err
+	}
+	err = json.Unmarshal(body, &locData)
+	if err != nil {
+		return locationAreaData{}, err
+	}
+	return locData, nil
 }
