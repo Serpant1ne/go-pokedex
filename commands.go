@@ -16,10 +16,9 @@ func commandHelp(config *config) error {
 	fmt.Println("Welcome to the Pokedex!")
 	fmt.Println("Usage:")
 	fmt.Println("")
-	fmt.Println("help: Displays a help message")
-	fmt.Println("exit: Exit the Pokedex")
-	fmt.Println("map: show next 20 location areas of the Pokemon world")
-	fmt.Println("mapBack: show previous 20 location areas of the Pokemon world")
+	for _, command := range getCliCommands() {
+		fmt.Printf("%s: %s \n", command.name, command.description)
+	}
 
 	return nil
 }

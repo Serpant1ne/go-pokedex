@@ -4,6 +4,11 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"time"
+)
+
+const (
+	CACHE_INTERVAL = 5 * time.Second
 )
 
 func startRepl() {
@@ -16,6 +21,9 @@ func startRepl() {
 	for {
 		fmt.Print("Pokedex > ")
 		reader.Scan()
+		if len(reader.Text()) == 0 {
+			continue
+		}
 		command, ok := cliCommands[reader.Text()]
 		if !ok {
 			commandNotFound()
