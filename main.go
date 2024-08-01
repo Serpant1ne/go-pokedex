@@ -1,5 +1,7 @@
 package main
 
+import "github.com/Serpant1ne/go-pokedex/internal/pokeactions"
+
 func main() {
 	startRepl()
 }
@@ -11,8 +13,9 @@ type cliCommand struct {
 }
 
 type config struct {
-	next string
-	prev string
+	client pokeactions.Client
+	next   string
+	prev   string
 }
 
 func getCliCommands() map[string]cliCommand {

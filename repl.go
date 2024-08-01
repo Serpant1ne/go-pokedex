@@ -5,6 +5,9 @@ import (
 	"fmt"
 	"os"
 	"time"
+
+	"github.com/Serpant1ne/go-pokedex/internal/pokeactions"
+	"github.com/Serpant1ne/go-pokedex/internal/pokecache"
 )
 
 const (
@@ -17,6 +20,9 @@ func startRepl() {
 	config := config{
 		next: "https://pokeapi.co/api/v2/location-area",
 		prev: "",
+		client: pokeactions.Client{
+			Cache: pokecache.NewCache(CACHE_INTERVAL),
+		},
 	}
 	for {
 		fmt.Print("Pokedex > ")

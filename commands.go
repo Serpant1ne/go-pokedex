@@ -29,7 +29,7 @@ func commandExit(config *config) error {
 }
 
 func CommandMap(config *config) error {
-	locData, err := pokeactions.GetLocationAreaData(config.next)
+	locData, err := pokeactions.GetLocationAreaData(config.next, &config.client.Cache)
 	if err != nil {
 		return err
 	}
@@ -42,7 +42,7 @@ func CommandMap(config *config) error {
 }
 
 func commandMapBack(config *config) error {
-	locData, err := pokeactions.GetLocationAreaData(config.prev)
+	locData, err := pokeactions.GetLocationAreaData(config.prev, &config.client.Cache)
 	if err != nil {
 		return err
 	}
