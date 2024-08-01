@@ -32,7 +32,7 @@ func GetLocationAreaData(url string, c *pokecache.Cache) (locationAreaData, erro
 			return locationAreaData{}, err
 		}
 
-		body, err := io.ReadAll(resp.Body)
+		body, err = io.ReadAll(resp.Body)
 		resp.Body.Close()
 		if resp.StatusCode > 299 {
 			err := fmt.Errorf("response failed with status code: %d and\nbody: %s", resp.StatusCode, body)
