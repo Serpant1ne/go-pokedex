@@ -30,7 +30,7 @@ func commandExit(config *pokeactions.Config, args []string) error {
 }
 
 func CommandMap(config *pokeactions.Config, args []string) error {
-	locData, err := pokeactions.GetLocationAreaData(config.Next, &config.Client.Cache)
+	locData, err := pokeactions.GetLocationList(config.Next, &config.Client.Cache)
 	if err != nil {
 		return err
 	}
@@ -46,7 +46,7 @@ func commandMapBack(config *pokeactions.Config, args []string) error {
 	if config.Prev == "" {
 		return errors.New("error. you are on the first page")
 	}
-	locData, err := pokeactions.GetLocationAreaData(config.Prev, &config.Client.Cache)
+	locData, err := pokeactions.GetLocationList(config.Prev, &config.Client.Cache)
 	if err != nil {
 		return err
 	}
@@ -55,5 +55,19 @@ func commandMapBack(config *pokeactions.Config, args []string) error {
 	}
 	config.Next = locData.Next
 	config.Prev = locData.Previous
+	return nil
+}
+
+func commandExplore(config *pokeactions.Config, args []string) error {
+	if config.BaseUrl == "" {
+		return errors.New("error. No BaseUrl")
+	}
+	locData, err := pokeactions.GetLocation(config.BaseUrl, args[0], &config.Client.Cache)
+	if err != nil {
+		return err
+	}
+	for _, pokEncounter := range locData.PokemonEncounters {
+		fmt.Println(pokEncounter.Pokemon.Name)
+	}
 	return nil
 }

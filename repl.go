@@ -19,8 +19,9 @@ func startRepl() {
 	reader := bufio.NewScanner(os.Stdin)
 	cliCommands := getCliCommands()
 	config := pokeactions.Config{
-		Next: "https://pokeapi.co/api/v2/location-area",
-		Prev: "",
+		Next:    "https://pokeapi.co/api/v2/location-area",
+		Prev:    "",
+		BaseUrl: "https://pokeapi.co/api/v2/location-area",
 		Client: pokeactions.Client{
 			Cache: pokecache.NewCache(CACHE_INTERVAL),
 		},

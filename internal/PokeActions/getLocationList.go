@@ -9,13 +9,7 @@ import (
 	"github.com/Serpant1ne/go-pokedex/internal/pokecache"
 )
 
-type Config struct {
-	Client Client
-	Next   string
-	Prev   string
-}
-
-type locationAreaData struct {
+type locationList struct {
 	Count    int    `json:"count"`
 	Next     string `json:"next"`
 	Previous string `json:"previous"`
@@ -25,8 +19,8 @@ type locationAreaData struct {
 	} `json:"results"`
 }
 
-func GetLocationAreaData(url string, c *pokecache.Cache) (locationAreaData, error) {
-	locData := locationAreaData{}
+func GetLocationList(url string, c *pokecache.Cache) (locationList, error) {
+	locData := locationList{}
 
 	body := make([]byte, 0)
 
@@ -35,17 +29,17 @@ func GetLocationAreaData(url string, c *pokecache.Cache) (locationAreaData, erro
 	} else {
 		resp, err := http.Get(url)
 		if err != nil {
-			return locationAreaData{}, err
+			return locationList{}, err
 		}
 
 		body, err = io.ReadAll(resp.Body)
 		resp.Body.Close()
 		if resp.StatusCode > 299 {
 			err := fmt.Errorf("response failed with status code: %d and\nbody: %s", resp.StatusCode, body)
-			return locationAreaData{}, err
+			return locationList{}, err
 		}
 		if err != nil {
-			return locationAreaData{}, err
+			return locationList{}, err
 		}
 
 		c.Set(url, body)
@@ -53,7 +47,7 @@ func GetLocationAreaData(url string, c *pokecache.Cache) (locationAreaData, erro
 
 	err := json.Unmarshal(body, &locData)
 	if err != nil {
-		return locationAreaData{}, err
+		return locationList{}, err
 	}
 	return locData, nil
 }
