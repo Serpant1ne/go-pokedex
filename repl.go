@@ -9,6 +9,7 @@ import (
 
 	"github.com/Serpant1ne/go-pokedex/internal/pokeactions"
 	"github.com/Serpant1ne/go-pokedex/internal/pokecache"
+	"github.com/Serpant1ne/go-pokedex/internal/pokedex"
 )
 
 const (
@@ -26,7 +27,7 @@ func startRepl() {
 		Client: pokeactions.Client{
 			Cache: pokecache.NewCache(CACHE_INTERVAL),
 		},
-		Pokedex: pokeactions.NewPokedex(),
+		Pokedex: pokedex.NewPokedex(),
 	}
 	for {
 		fmt.Print("Pokedex > ")

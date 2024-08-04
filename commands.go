@@ -84,11 +84,29 @@ func commandCatch(config *pokeactions.Config, args []string) error {
 	fmt.Printf("Throwing a pokeball to %s...\n", pokemon.Name)
 	if rand.Intn(pokemon.BaseExperience) < 50 {
 		fmt.Printf("%s was caught!\n", pokemon.Name)
-		config.Pokedex.Mux.Lock()
-		defer config.Pokedex.Mux.Unlock()
-		config.Pokedex.Pokemons[pokemon.Name] = pokemon
+		config.Pokedex.AddPokemon(pokemon)
 	} else {
 		fmt.Printf("%s escaped!\n", pokemon.Name)
 	}
+	return nil
+}
+
+func commandInspect(config *pokeactions.Config, args []string) error {
+	pokemon, ok := config.Pokedex.GetPokemon(args[0])
+	if !ok {
+		return errors.New("error. You don't have this pokemon")
+	}
+	fmt.Printf("Name: %s\n", pokemon.Name)
+	fmt.Printf("Height: %d\n", pokemon.Height)
+	fmt.Printf("Weight: %d\n", pokemon.Weight)
+	fmt.Printf("Stats: \n")
+	for _, s := range pokemon.Stats {
+		fmt.Printf("  -%s: %d\n", s.Stat.Name, s.BaseStat)
+	}
+	fmt.Printf("Types: \n")
+	for _, t := range pokemon.Types {
+		fmt.Printf("  -%s\n", t.Type.Name)
+	}
+
 	return nil
 }
