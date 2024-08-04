@@ -19,12 +19,14 @@ func startRepl() {
 	reader := bufio.NewScanner(os.Stdin)
 	cliCommands := getCliCommands()
 	config := pokeactions.Config{
-		Next:    "https://pokeapi.co/api/v2/location-area",
-		Prev:    "",
-		BaseUrl: "https://pokeapi.co/api/v2/location-area",
+		NextLocation:    "https://pokeapi.co/api/v2/location-area",
+		PrevLocation:    "",
+		BaseLocationUrl: "https://pokeapi.co/api/v2/location-area",
+		BasePokemonUrl:  "https://pokeapi.co/api/v2/pokemon",
 		Client: pokeactions.Client{
 			Cache: pokecache.NewCache(CACHE_INTERVAL),
 		},
+		Pokedex: pokeactions.NewPokedex(),
 	}
 	for {
 		fmt.Print("Pokedex > ")
