@@ -37,6 +37,9 @@ func startRepl() {
 			commandNotFound()
 			continue
 		}
-		command.callback(&config, params[1:])
+		err := command.callback(&config, params[1:])
+		if err != nil {
+			fmt.Println(err)
+		}
 	}
 }

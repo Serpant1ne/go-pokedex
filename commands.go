@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"os"
 
@@ -42,6 +43,9 @@ func CommandMap(config *pokeactions.Config, args []string) error {
 }
 
 func commandMapBack(config *pokeactions.Config, args []string) error {
+	if config.Prev == "" {
+		return errors.New("error. you are on the first page")
+	}
 	locData, err := pokeactions.GetLocationAreaData(config.Prev, &config.Client.Cache)
 	if err != nil {
 		return err
