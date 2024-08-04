@@ -83,8 +83,9 @@ func commandCatch(config *pokeactions.Config, args []string) error {
 	}
 	fmt.Printf("Throwing a pokeball to %s...\n", pokemon.Name)
 	if rand.Intn(pokemon.BaseExperience) < 50 {
-		fmt.Printf("%s was caught!\n", pokemon.Name)
 		config.Pokedex.AddPokemon(pokemon)
+		fmt.Printf("%s was caught!\n", pokemon.Name)
+		fmt.Println("You may now inspect it with the inspect command.")
 	} else {
 		fmt.Printf("%s escaped!\n", pokemon.Name)
 	}
@@ -108,5 +109,12 @@ func commandInspect(config *pokeactions.Config, args []string) error {
 		fmt.Printf("  -%s\n", t.Type.Name)
 	}
 
+	return nil
+}
+
+func commandPokedex(config *pokeactions.Config, args []string) error {
+	for _, name := range config.Pokedex.GetPokemonList() {
+		fmt.Printf(" - %s\n", name)
+	}
 	return nil
 }

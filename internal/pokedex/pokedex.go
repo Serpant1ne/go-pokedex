@@ -290,3 +290,13 @@ func (pd Pokedex) GetPokemon(name string) (Pokemon, bool) {
 	}
 	return pokemon, true
 }
+
+func (pd Pokedex) GetPokemonList() []string {
+	pd.Mux.Lock()
+	defer pd.Mux.Unlock()
+	list := make([]string, 0)
+	for name := range pd.Pokemons {
+		list = append(list, name)
+	}
+	return list
+}
