@@ -9,13 +9,7 @@ func main() {
 type cliCommand struct {
 	name        string
 	description string
-	callback    func(*config) error
-}
-
-type config struct {
-	client pokeactions.Client
-	next   string
-	prev   string
+	callback    func(*pokeactions.Config, []string) error
 }
 
 func getCliCommands() map[string]cliCommand {

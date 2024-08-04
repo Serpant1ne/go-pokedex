@@ -9,6 +9,12 @@ import (
 	"github.com/Serpant1ne/go-pokedex/internal/pokecache"
 )
 
+type Config struct {
+	Client Client
+	Next   string
+	Prev   string
+}
+
 type locationAreaData struct {
 	Count    int    `json:"count"`
 	Next     string `json:"next"`

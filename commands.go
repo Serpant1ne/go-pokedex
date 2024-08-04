@@ -12,7 +12,7 @@ func commandNotFound() error {
 	return nil
 }
 
-func commandHelp(config *config) error {
+func commandHelp(config *pokeactions.Config, args []string) error {
 	fmt.Println("Welcome to the Pokedex!")
 	fmt.Println("Usage:")
 	fmt.Println("")
@@ -23,33 +23,33 @@ func commandHelp(config *config) error {
 	return nil
 }
 
-func commandExit(config *config) error {
+func commandExit(config *pokeactions.Config, args []string) error {
 	os.Exit(0)
 	return nil
 }
 
-func CommandMap(config *config) error {
-	locData, err := pokeactions.GetLocationAreaData(config.next, &config.client.Cache)
+func CommandMap(config *pokeactions.Config, args []string) error {
+	locData, err := pokeactions.GetLocationAreaData(config.Next, &config.Client.Cache)
 	if err != nil {
 		return err
 	}
 	for _, location := range locData.Results {
 		fmt.Println(location.Name)
 	}
-	config.next = locData.Next
-	config.prev = locData.Previous
+	config.Next = locData.Next
+	config.Prev = locData.Previous
 	return nil
 }
 
-func commandMapBack(config *config) error {
-	locData, err := pokeactions.GetLocationAreaData(config.prev, &config.client.Cache)
+func commandMapBack(config *pokeactions.Config, args []string) error {
+	locData, err := pokeactions.GetLocationAreaData(config.Prev, &config.Client.Cache)
 	if err != nil {
 		return err
 	}
 	for _, location := range locData.Results {
 		fmt.Println(location.Name)
 	}
-	config.next = locData.Next
-	config.prev = locData.Previous
+	config.Next = locData.Next
+	config.Prev = locData.Previous
 	return nil
 }

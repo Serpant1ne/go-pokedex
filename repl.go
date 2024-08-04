@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/Serpant1ne/go-pokedex/internal/pokeactions"
@@ -11,30 +12,31 @@ import (
 )
 
 const (
-	CACHE_INTERVAL = 5 * time.Second
+	CACHE_INTERVAL = 30 * time.Second
 )
 
 func startRepl() {
 	reader := bufio.NewScanner(os.Stdin)
 	cliCommands := getCliCommands()
-	config := config{
-		next: "https://pokeapi.co/api/v2/location-area",
-		prev: "",
-		client: pokeactions.Client{
+	config := pokeactions.Config{
+		Next: "https://pokeapi.co/api/v2/location-area",
+		Prev: "",
+		Client: pokeactions.Client{
 			Cache: pokecache.NewCache(CACHE_INTERVAL),
 		},
 	}
 	for {
 		fmt.Print("Pokedex > ")
 		reader.Scan()
-		if len(reader.Text()) == 0 {
+		params := strings.Split(reader.Text(), " ")
+		if len(params[0]) == 0 {
 			continue
 		}
-		command, ok := cliCommands[reader.Text()]
+		command, ok := cliCommands[params[0]]
 		if !ok {
 			commandNotFound()
 			continue
 		}
-		command.callback(&config)
+		command.callback(&config, params[1:])
 	}
 }
